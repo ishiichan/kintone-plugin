@@ -87,27 +87,27 @@
       todo.className = "todo";
       todo.textContent = countArrayName[i];
       // 　　　ランダムで割り振る画像をURLで保持。
-      const images = {
-        1: "https://2.bp.blogspot.com/-LqQJ7v1Vt2A/Wat2LL0B1RI/AAAAAAABGVo/JSqbIiruW0sk49jV85xOUryx7do6O3MEQCLcBGAs/s800/animal_stand_tora.png",
-        2: "https://3.bp.blogspot.com/-LD7eWXxJDWc/Wat2JYWIm1I/AAAAAAABGVY/QrzmfD7ayigOx65TyW0Y_UHTAKogQ_-KgCLcBGAs/s800/animal_stand_penguin.png",
-        3: "https://1.bp.blogspot.com/-TyFon191pZA/Wat2HxLN5rI/AAAAAAABGVA/oWavCFgdq_gehH0H36quuyiuStYBTtJuACLcBGAs/s800/animal_stand_kuma.png",
-      };
+      const images = [
+        "https://2.bp.blogspot.com/-LqQJ7v1Vt2A/Wat2LL0B1RI/AAAAAAABGVo/JSqbIiruW0sk49jV85xOUryx7do6O3MEQCLcBGAs/s800/animal_stand_tora.png",
+        "https://3.bp.blogspot.com/-LD7eWXxJDWc/Wat2JYWIm1I/AAAAAAABGVY/QrzmfD7ayigOx65TyW0Y_UHTAKogQ_-KgCLcBGAs/s800/animal_stand_penguin.png",
+        "https://1.bp.blogspot.com/-TyFon191pZA/Wat2HxLN5rI/AAAAAAABGVA/oWavCFgdq_gehH0H36quuyiuStYBTtJuACLcBGAs/s800/animal_stand_kuma.png",
+      ];
       // ↓上記の画像オブジェクトを配列に格納する。
-      const Array1 = Object.values(images);
-      const Array2 = Object.keys(images);
-      const imageNo = Math.floor(Math.random() * Object.keys(images).length);
+      // const Array1 = Object.values(images);
+      // const Array2 = Object.keys(images);
+      const imageNo = Math.floor(Math.random() * images.length);
 
       const randomImage = document.createElement("img");
       randomImage.height = "160";
       randomImage.width = "131.4";
 
       // ユーザー番号÷画像枚数（3枚）で余りの数に応じて割り振る画像を決定する。
-      if (i % Array1.length === 0) {
-        randomImage.src = Array1[0];
-      } else if (i % Array1.length === 1) {
-        randomImage.src = Array1[1];
+      if (i % images.length === 0) {
+        randomImage.src = images[0];
+      } else if (i % images.length === 1) {
+        randomImage.src = images[1];
       } else {
-        randomImage.src = Array1[2];
+        randomImage.src = images[2];
       }
 
       const changePr = document.createElement("div");
@@ -115,14 +115,35 @@
       // 達成率（プログレスバー）を作成
       const achievement = document.createElement("progress");
       achievement.id = "achievement";
-      achievement.value = AchievementRate(countArrayNum[i], taskNum);
+      // achievement.value = AchievementRate(countArrayNum[i], taskNum);
       achievement.max = 100;
       // achievement.textContent = res[i].達成率.value;
 
+      // 動的プログレスバー
+      const increment_progressbar = () => {
+        achievement.value++;
+
+        if (achievement.value === AchievementRate(countArrayNum[i], taskNum)) {
+          clearInterval(interval_progressbar);
+        }
+      };
+      const interval_progressbar = setInterval(increment_progressbar, 15);
+      // 数字表示
       const achievementNum = document.createElement("div");
       achievementNum.id = "achievementNum";
-      // achievementNum.textContent = val + "%";
-      achievementNum.textContent = `${countArrayNum[i]}/${taskNum}  完了`;
+      let showNumber = 0;
+      const increment_showNumber = () => {
+        showNumber++;
+        console.log(showNumber);
+        achievementNum.textContent = `${showNumber}/${taskNum}  完了`;
+        if (showNumber === countArrayNum[i]) {
+          clearInterval(interval_showNumber);
+        }
+      };
+      const interval_showNumber = setInterval(increment_showNumber, 100);
+      // ここまで
+
+      // achievementNum.textContent = `${countArrayNum[i]}/${taskNum}  完了`;
 
       cssCreate(
         `.card{border-radius: 5px; box-shadow:0 2px 5px #ccc; width:208px; height:270px; text-align:center}`
