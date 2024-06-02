@@ -20,8 +20,8 @@
       "js/KintoneRestAPIClient.min.js",
       "js/app.4af0b891.js",
       "js/chunk-vendors.337c9e8a.js",
-      "js/testAppForBB (1) (windows) (1).js",
-      "js/testAppForBBModule.js"
+      "js/testApp.js",
+      "js/testAppModule.js"
     ],
     "css": ["css/app.a3cc98c1.css"]
   }
